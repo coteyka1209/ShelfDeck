@@ -95,9 +95,100 @@ class SQL:
     
     def update_name(self, id, name):#обновить имя
          with self.connection:
-             return self.cursor.execute("UPDATE uinfos SET name = ? WHERE id = ?", (name, id))
+             return self.cursor.execute("UPDATE uinfos SET name = ? WHERE id = ?", (name, id,))
     
-
+    def update_id_money(self, id):#добавляем пользователя в бд
+        with self.connection:
+            return self.cursor.execute("INSERT INTO money (id) VALUES(?)", (id,))
+    
+    #Получение денег
+    def get_R1 (self, id):
+            with self.connection:
+                result = self.cursor.execute('SELECT R1 FROM money WHERE id = ?', (id,)).fetchone()
+                if result:
+                    return result[0]
+                else:
+                    return None
+    def get_R2 (self, id):
+            with self.connection:
+                result = self.cursor.execute('SELECT R2 FROM money WHERE id = ?', (id,)).fetchone()
+                if result:
+                    return result[0]
+                else:
+                    return None
+    def get_R5 (self, id):
+            with self.connection:
+                result = self.cursor.execute('SELECT R5 FROM money WHERE id = ?', (id,)).fetchone()
+                if result:
+                    return result[0]
+                else:
+                    return None    
+                
+    def get_R10 (self, id):
+            with self.connection:
+                result = self.cursor.execute('SELECT R10 FROM money WHERE id = ?', (id,)).fetchone()
+                if result:
+                    return result[0]
+                else:
+                    return None
+                
+    def get_R50 (self, id):
+            with self.connection:
+                result = self.cursor.execute('SELECT R50 FROM money WHERE id = ?', (id,)).fetchone()
+                if result:
+                    return result[0]
+                else:
+                    return None
+                
+    def get_R100 (self, id):
+            with self.connection:
+                result = self.cursor.execute('SELECT R100 FROM money WHERE id = ?', (id,)).fetchone()
+                if result:
+                    return result[0]
+                else:
+                    return None
+    
+    def get_R200 (self, id):
+        with self.connection:
+            result = self.cursor.execute('SELECT R200 FROM money WHERE id = ?', (id,)).fetchone()
+            if result:
+                return result[0]
+            else:
+                return None
+            
+    def get_R500 (self, id):
+        with self.connection:
+            result = self.cursor.execute('SELECT R500 FROM money WHERE id = ?', (id,)).fetchone()
+            if result:
+                return result[0]
+            else:
+                return None
+    def get_R1000 (self, id):
+        with self.connection:
+            result = self.cursor.execute('SELECT R1000 FROM money WHERE id = ?', (id,)).fetchone()
+            if result:
+                return result
+            else:
+                return "Ошибка!"
+            
+    def get_R2000 (self, id):
+            with self.connection:
+                result = self.cursor.execute('SELECT R2000 FROM money WHERE id = ?', (id,)).fetchone()
+                if result:
+                    return result[0]
+                else:
+                    return None
+                
+    def get_R5000 (self, id):
+            with self.connection:
+                result = self.cursor.execute('SELECT R5000 FROM money WHERE id = ?', (id,)).fetchone()
+                if result:
+                    return result[0]
+                else:
+                    return None
+    
+    
+    
     def close(self):
         self.connection.close()
 
