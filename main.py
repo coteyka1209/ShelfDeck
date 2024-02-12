@@ -25,11 +25,11 @@ async def start(message):
     usname = message.from_user.username #получаем ник пользователя
     
     if not db.user_exists(id): #Если данных пользователя нет в базе данных
-        db.add_user(id, name, lname, usname, 0)
-        db.update_id_money(id)
-        db.update_status(id, 1)
-        await message.answer ("Привет новый пользователь! Ваши данные записаны! Повторите пожалуйста вашу комманду!")
-        kb.Logging("info","user","join: У нас новый пользователь! Это {} " .format(name))
+        db.add_user(id, name, lname, usname, 0) #Записать пользователя в базу данных
+        db.update_id_money(id) #Добавить id пользователя в таблицу money
+        db.update_status(id, 1) #Установить статус пользователя на 1
+        await message.answer ("Привет новый пользователь! Ваши данные записаны! Повторите пожалуйста вашу комманду!") # Вывести пользователю подтверждение о регистрации
+        kb.Logging("info","user","join: У нас новый пользователь! Это {} " .format(name)) #Логирование регистрации нового пользователя
         return
     
     if db.get_name != message.from_user.first_name: #Если пользователь изменил данные о себе в Telegram
@@ -42,42 +42,45 @@ async def start(message):
         db.update_lname(message.from_user.id, message.from_user.last_name)
     
     
-    if message.text == "/start":
+    if message.text == "/start": # Если пользователь отправил комманду "/start"
             db.update_status(id,0)
-            try:
-                await message.edit_text("Главное меню бота", reply_markup = kb.kbmain)
-            except:             
+            try: # Попробовать отредактировать уже существующее сообщение
+                await message.edit_text("Главное меню бота", reply_mark up = kb.kbmain)
+            except: # Если не получилось - отправить новое
                 await message.answer("Главное меню бота", reply_markup = kb.kbmain)
 
 
 
 
 
-@dp.callback_query_handler() #остальные inline кнопки
+@dp.callback_query_handler() #Inline кнопки
 async def start_call(call):
     global chat_type, chatid
     id = call.from_user.id # Получаем ID пользователя, который отправил запрос.
     match call.data:
-        case "settings": #Настройки в главном меню
-            db.update_status(id,0.1)
-            try:
-              await call.message.edit_text ("В разработке", reply_markup = kb.kback)
-            except:
-               await call.message.answer ("В разработке", reply_markup = kb.kback)
-
+    
         case "info": #Инфо в главном меню
             db.update_status(id,0.2)
             try:
                 await call.message.edit_text ("Этот бот предназначен для хранения наличных в цифре. Так можно копить, вести учет, и много чего еще. Также, наш код есть на GitHub!", reply_markup = kb.kbinfo)
             except:
                await call.message.answer ("Этот бот предназначен для хранения наличных в цифре. Так можно копить, вести учет, и много чего еще. Также, наш код есть на GitHub!", reply_markup = kb.kbinfo)
+        
         case "shelf": #ГЛАВНАЯ ФУНКЦИЯ! Доступ к полке.
             db.update_status(id,1)
             try:
                 await call.message.edit_text("Это ваша полка.\nВыберите, что вы хотите сделать", reply_markup = kb.kbchooseaction)
             except:             
                 await call.message.answer("Это ваша полка.\nВыберите, что вы хотите сделать", reply_markup = kb.kbchooseaction)
-        case "view":
+
+        case "settings": #Настройки в главном меню
+        db.update_status(id,0.1)
+        try:
+          await call.message.edit_text ("В разработке", reply_markup = kb.kback)
+        except:
+           await call.message.answer ("В разработке", reply_markup = kb.kback)
+            
+        case "view": #Если пользователь выбрал "просмотреть" в "моей полке"
             db.update_status(id, 1.1)
             current1 = db.get_money(id, "R1")
             current2 = db.get_money(id, "R2")
@@ -94,6 +97,7 @@ async def start_call(call):
                 await call.message.edit_text("Значения:\nМонета 1₽ - {}\nМонета 2₽ - {}\nМонета 5₽ - {}\nМонета 10₽ - {}\nКупюра 50₽ - {}\nКупюра 100₽ - {}\nКупюра 200₽ - {}\nКупюра 500₽ - {}\nКупюра 1000₽ - {}\nКупюра 2000₽ - {}\nКупюра 5000₽ - {}\n\nСумма всех ваших купюр - {}".format(current1, current2, current5, current10, current50, current100, current200, current500, current1000, current2000, current5000,kb.summa(id)), reply_markup = kb.kbackview)
             except:             
                 await call.message.answer("Значения:\nМонета 1₽ - {}\nМонета 2₽ - {}\nМонета 5₽ - {}\nМонета 10₽ - {}\nКупюра 50₽ - {}\nКупюра 100₽ - {}\nКупюра 200₽ - {}\nКупюра 500₽ - {}\nКупюра 1000₽ - {}\nКупюра 2000₽ - {}\nКупюра 5000₽ - {}\n\nСумма всех ваших купюр - {}".format(current1, current2, current5, current10, current50, current100, current200, current500, current1000, current2000, current5000, kb.summa(id)), reply_markup = kb.kbackview)
+        
         case "change":
             try:
                 await call.message.edit_text("Хорошо!\nДля начала, выберите валюту",reply_markup = kb.kbchoosemoney)
