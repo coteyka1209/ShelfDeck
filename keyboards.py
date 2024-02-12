@@ -79,30 +79,18 @@ def Logging(type, subtype, message):
     print("log." + finalprint)
 
 def summa (id):
-    current1 = db.get_money(id, "R1")
-    current2 = db.get_money(id, "R2")
-    current5 = db.get_money(id, "R5")
-    current10 = db.get_money(id, "R10")
-    current50 = db.get_money(id, "R50")
-    current100 = db.get_money(id, "R100")
-    current200 = db.get_money(id, "R200")
-    current500 = db.get_money(id, "R500")
-    current1000 = db.get_money(id, "R1000")
-    current2000 = db.get_money(id, "R2000")
-    current5000 = db.get_money(id, "R5000")
-    
 
-    summa1 = current1*1
-    summa2 = current2*2
-    summa5 = current5*5
-    summa10 = current10*10
-    summa50 = current50*50
-    summa100 = current100*100
-    summa200 = current200*200
-    summa500 = current500*500
-    summa1000 = current1000*1000
-    summa2000 = current2000*2000
-    summa5000 = current5000*5000
+    summa1 = db.get_money(id, "R1")*1
+    summa2 = db.get_money(id, "R2")*2
+    summa5 = db.get_money(id, "R5")*5
+    summa10 = db.get_money(id, "R10")*10
+    summa50 = db.get_money(id, "R50")*50
+    summa100 = db.get_money(id, "R100")*100
+    summa200 = db.get_money(id, "R200")*200
+    summa500 = db.get_money(id, "R500")*500
+    summa1000 = db.get_money(id, "R1000")*1000
+    summa2000 = db.get_money(id, "R2000")*2000
+    summa5000 = db.get_money(id, "R5000")*5000
 
     finalsumma = summa1+summa2+summa5+summa10+summa50+summa100+summa200+summa500+summa1000+summa2000+summa5000
     return finalsumma
