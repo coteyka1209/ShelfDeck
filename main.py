@@ -100,9 +100,9 @@ async def start_call(call):
         
         case "change":
             try:
-                await call.message.edit_text("Хорошо!\nДля начала, выберите валюту",reply_markup = kb.kbchoosemoney)
+                await call.message.edit_text("Хорошо!\nДля начала, выберите значение для изменения",reply_markup = kb.kbchoosemoney)
             except:
-                await call.message.answer("Хорошо!\nДля начала, выберите валюту",reply_markup = kb.kbchoosemoney)
+                await call.message.answer("Хорошо!\nДля начала, выберите значение для изменения",reply_markup = kb.kbchoosemoney)
         
         case "choose1R":
             db.update_status(id, "1.2.1R")
