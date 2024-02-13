@@ -45,7 +45,7 @@ async def start(message):
     if message.text == "/start": # Если пользователь отправил комманду "/start"
             db.update_status(id,0)
             try: # Попробовать отредактировать уже существующее сообщение
-                await message.edit_text("Главное меню бота", reply_mark up = kb.kbmain)
+                await message.edit_text("Главное меню бота", reply_markup = kb.kbmain)
             except: # Если не получилось - отправить новое
                 await message.answer("Главное меню бота", reply_markup = kb.kbmain)
 
@@ -74,11 +74,11 @@ async def start_call(call):
                 await call.message.answer("Это ваша полка.\nВыберите, что вы хотите сделать", reply_markup = kb.kbchooseaction)
 
         case "settings": #Настройки в главном меню
-        db.update_status(id,0.1)
-        try:
-          await call.message.edit_text ("В разработке", reply_markup = kb.kback)
-        except:
-           await call.message.answer ("В разработке", reply_markup = kb.kback)
+            db.update_status(id,0.1)
+            try:
+                await call.message.edit_text ("В разработке", reply_markup = kb.kback)
+            except:
+                await call.message.answer ("В разработке", reply_markup = kb.kback)
             
         case "view": #Если пользователь выбрал "просмотреть" в "моей полке"
             db.update_status(id, 1.1)
